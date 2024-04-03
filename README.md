@@ -1,4 +1,4 @@
-# Dotfiles Install Guide
+# Installation Guide
 
 > This is only for my personal dotfiles. If you want to use them, please make sure to carefully review and modify the contents as needed.
 

@@ -45,8 +45,8 @@ bindsym Print exec flameshot gui
 bindsym $mod+Shift+q kill
 
 # start rofi (a program launcher)
-bindsym $mod+d exec rofi -show drun
-bindsym $mod+Shift+d exec rofi -show run
+bindsym $mod+d exec rofi -show drun -dpi 120
+bindsym $mod+Shift+d exec rofi -show run -dpi 120
 
 
 # change focus

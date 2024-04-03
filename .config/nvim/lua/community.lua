@@ -19,6 +19,27 @@ return {
   { import = "astrocommunity.pack.vue" },
   { import = "astrocommunity.pack.sql" },
   { import = "astrocommunity.pack.yaml" },
+  ---------------------------------------
   { import = "astrocommunity.colorscheme.rose-pine" },
-  -- import/override with your plugins folder
+  ---------------------------------------
+  { import = "astrocommunity.color.headlines-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.code-runner.sniprun" },
+  { import = "astrocommunity.code-runner.compiler-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.diagnostics.trouble-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.editing-support.conform-nvim" },
+  { import = "astrocommunity.editing-support.refactoring-nvim" },
+  { import = "astrocommunity.editing-support.nvim-regexplainer" },
+  -- { import = "astrocommunity.editing-support.rainbow-delimiters-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.lsp.lsp-signature-nvim" },
+  { import = "astrocommunity.lsp.ts-error-translator-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.markdown-and-latex.glow-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.motion.flash-nvim" },
+  ---------------------------------------
+  { import = "astrocommunity.scrolling.neoscroll-nvim" },
 }

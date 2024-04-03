@@ -16,11 +16,16 @@ exec --no-startup-id fcitx5
 exec --no-startup-id picom
 exec --no-startup-id flameshot
 
+# Window rules
+for_window [class="Gpick"] floating toggle
+
+
 # ScratchPad
 exec --no-startup-id kitty --title "scratch_pad" -e tmux new -s ScratchPad
 for_window [title="scratch_pad"] move scratchpad
 for_window [title="scratch_pad"] border pixel 1
 bindsym $mod+t [title="scratch_pad"] scratchpad show
+
 
 # Show the first scratchpad window
 

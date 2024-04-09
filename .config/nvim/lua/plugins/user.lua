@@ -80,4 +80,15 @@ return {
       )
     end,
   },
+  {
+    "j-hui/fidget.nvim",
+    opts = {
+      -- options
+    },
+  },
+  -- { "ray-x/web-tools.nvim" },
+  {
+    "keaising/im-select.nvim",
+    config = function() require("im_select").setup {} end,
+  },
 }

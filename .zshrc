@@ -12,7 +12,8 @@ export ZSH="$HOME/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-#ZSH_THEME="robbyrussell"
+# ZSH_THEME="ys"
+eval "$(starship init zsh)"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -108,4 +109,28 @@ alias vim="nvim"
 alias vi="nvim"
 alias ran="ranger"
 alias rm="rm -i"
+
 eval "$(starship init zsh)"
+
+if [ "$TERM" = "linux" ]; then
+	/bin/echo -e "
+	\e]P0#191724
+	\e]P1#eb6f92
+	\e]P2#9ccfd8
+	\e]P3#f6c177
+	\e]P4#31748f
+	\e]P5#c4a7e7
+	\e]P6#ebbcba
+	\e]P7#e0def4
+	\e]P8#26233a
+	\e]P9#eb6f92
+	\e]PA#9ccfd8
+	\e]PB#f6c177
+	\e]PC#31748f
+	\e]PD#c4a7e7
+	\e]PE#ebbcba
+	\e]PF#e0def4
+	"
+	# get rid of artifacts
+	clear
+fi

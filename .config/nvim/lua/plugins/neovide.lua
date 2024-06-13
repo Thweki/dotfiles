@@ -1,7 +1,7 @@
 if not vim.g.neovide then return {} end
 
 -- vim.o.guifont = "JetBrainsMono Nerd Font Mono:h12"
-vim.o.guifont = "JetBrainsMono Nerd Font Mono:h12"
+vim.o.guifont = "JetBrainsMono Nerd Font Mono:h11.5"
 vim.g.neovide_transparency = 1.0
 vim.g.transparency = 1.0
 vim.g.neovide_refresh_rate = 60

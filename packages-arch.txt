@@ -12,8 +12,8 @@ qt5ct
 qt6ct
 kvantum
 kvantum-qt5
+tmux
 neovim
 firefox
 ttf-cascadia-code-nerd
 ttf-firacode-nerd
-

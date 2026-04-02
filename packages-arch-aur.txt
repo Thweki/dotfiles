@@ -1,0 +1,21 @@
+# 可选包 / AUR 包
+#
+# 说明：
+# - 这个文件不被 bootstrap-arch.sh 自动安装
+# - 用于记录增强体验或某些机器上才需要的包
+
+# AUR
+# visual-studio-code-bin
+# google-chrome
+
+# 可选增强
+feh
+git
+openssh
+stow
+ripgrep
+fd
+wl-clipboard
+xclip
+ttf-nerd-fonts-symbols
+

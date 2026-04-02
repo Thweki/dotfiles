@@ -22,6 +22,8 @@ jobs:
         run: |
           test -f README.md
           test -f packages-arch.txt
+          test -f packages-arch-aur.txt
+          test -f post-install.md
           test -f install.sh
           test -f bootstrap-arch.sh
           test -f home/.xprofile

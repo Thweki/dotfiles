@@ -42,14 +42,15 @@ cd ~/dotfiles
 
 ## Arch Linux 依赖
 
-依赖列表见 [packages-arch.txt](/home/thweki/dotfiles/packages-arch.txt)。
+依赖列表见：
+
+- [packages-arch.txt](/home/thweki/dotfiles/packages-arch.txt)：必须包
+- [packages-arch-aur.txt](/home/thweki/dotfiles/packages-arch-aur.txt)：可选包与 AUR 包
+- [post-install.md](/home/thweki/dotfiles/post-install.md)：安装后手工步骤
 
 ## 安装完成后
 
-- 重启 `i3` 或重新登录图形会话
-- 重启 `fcitx5`
-- 完全退出并重新打开 `firefox`
-- 打开 `nvim` 后执行 `:Lazy sync`
+安装后的详细检查项见 [post-install.md](/home/thweki/dotfiles/post-install.md)。
 
 ## CI
 

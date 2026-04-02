@@ -15,11 +15,11 @@ window_exists() {
 }
 
 window_visible() {
-  tree_objects | grep -F "\"class\":\"${class_name}\"" | grep -F '"scratchpad_state":"none"' >/dev/null 2>&1
+  tree_objects | grep -F "\"class\":\"${class_name}\"" | grep -Fv '"output":"__i3"' >/dev/null 2>&1
 }
 
 show_window() {
-  i3-msg "[class=\"^${class_name}\$\"] move container to workspace current, floating enable, resize set 70 ppt 55 ppt, move position center, focus" >/dev/null
+  i3-msg "scratchpad show" >/dev/null
 }
 
 hide_window() {

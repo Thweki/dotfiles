@@ -1,0 +1,92 @@
+@define-color bg #2d353b;
+@define-color bg_alt #343f44;
+@define-color border #3d484d;
+@define-color fg #d3c6aa;
+@define-color fg_muted #859289;
+@define-color accent #7fbbb3;
+@define-color green #a7c080;
+@define-color red #e67e80;
+@define-color yellow #dbbc7f;
+
+* {
+  color: @fg;
+  background-color: transparent;
+  border-color: @border;
+  box-shadow: none;
+  text-shadow: none;
+  outline-color: transparent;
+}
+
+window,
+dialog,
+.background,
+popover,
+menu,
+tooltip,
+textview,
+text,
+entry,
+listview,
+listview row,
+columnview,
+columnview row,
+navigation-view,
+toolbarview,
+scrolledwindow,
+viewport {
+  background-color: @bg;
+  color: @fg;
+}
+
+headerbar,
+titlebar {
+  background: @bg_alt;
+  color: @fg;
+  box-shadow: none;
+}
+
+button,
+entry,
+spinbutton,
+dropdown,
+combobox,
+textview,
+frame,
+calendar,
+tabbar tab {
+  background: @bg_alt;
+  color: @fg;
+  border: 1px solid @border;
+  border-radius: 0;
+}
+
+button:hover,
+entry:focus,
+spinbutton:focus,
+dropdown:hover,
+tabbar tab:selected {
+  color: @green;
+  border-color: @accent;
+}
+
+button:active,
+button:checked,
+check:checked,
+radio:checked,
+switch:checked,
+progressbar progress,
+scale highlight,
+selection,
+*:selected {
+  background: @accent;
+  color: @bg;
+  border-color: @accent;
+}
+
+link {
+  color: @accent;
+}
+
+tooltip {
+  border: 1px solid @accent;
+}

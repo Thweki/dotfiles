@@ -1,0 +1,138 @@
+:root {
+  --ef-bg: #2d353b !important;
+  --ef-bg-alt: #343f44 !important;
+  --ef-border: #3d484d !important;
+  --ef-fg: #d3c6aa !important;
+  --ef-fg-muted: #859289 !important;
+  --ef-accent: #7fbbb3 !important;
+  --ef-green: #a7c080 !important;
+  --ef-red: #e67e80 !important;
+  --toolbar-bgcolor: var(--ef-bg) !important;
+  --toolbar-color: var(--ef-fg) !important;
+  --lwt-accent-color: var(--ef-bg) !important;
+  --lwt-text-color: var(--ef-fg) !important;
+  --toolbar-field-background-color: var(--ef-bg-alt) !important;
+  --toolbar-field-color: var(--ef-fg) !important;
+  --toolbar-field-border-color: var(--ef-border) !important;
+  --toolbar-field-focus-background-color: var(--ef-bg-alt) !important;
+  --toolbar-field-focus-color: var(--ef-fg) !important;
+  --toolbar-field-focus-border-color: var(--ef-accent) !important;
+  --tabpanel-background-color: var(--ef-bg) !important;
+  --newtab-background-color: var(--ef-bg) !important;
+}
+
+#navigator-toolbox,
+#TabsToolbar,
+#nav-bar,
+#PersonalToolbar,
+#sidebar-box,
+#sidebar-header,
+.browserContainer,
+#tabbrowser-tabbox,
+#urlbar-background,
+.urlbarView,
+.panel-subview-body,
+panelview,
+menupopup {
+  background: var(--ef-bg) !important;
+  color: var(--ef-fg) !important;
+  border-color: var(--ef-border) !important;
+}
+
+#navigator-toolbox {
+  border-bottom: 1px solid var(--ef-border) !important;
+}
+
+#nav-bar,
+#PersonalToolbar {
+  background: var(--ef-bg-alt) !important;
+}
+
+#urlbar-background,
+#searchbar,
+.searchbar-textbox {
+  background: var(--ef-bg-alt) !important;
+  border: 1px solid var(--ef-border) !important;
+  border-radius: 0 !important;
+}
+
+#urlbar[focused="true"] > #urlbar-background,
+#searchbar:focus-within {
+  border-color: var(--ef-accent) !important;
+}
+
+.tabbrowser-tab {
+  padding-inline: 2px !important;
+}
+
+.tab-background {
+  margin-block: 0 !important;
+  border-radius: 0 !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.tabbrowser-tab[selected="true"] .tab-background {
+  background: var(--ef-bg-alt) !important;
+  border: 1px solid var(--ef-accent) !important;
+}
+
+.tabbrowser-tab:not([selected="true"]) .tab-background {
+  background: var(--ef-bg) !important;
+  border: 1px solid transparent !important;
+}
+
+.tab-label,
+#urlbar-input,
+.urlbar-input,
+.searchbar-textbox,
+toolbarbutton,
+label,
+description {
+  color: var(--ef-fg) !important;
+}
+
+.tabbrowser-tab:hover .tab-background,
+toolbarbutton:hover,
+.urlbarView-row:hover {
+  background: var(--ef-bg-alt) !important;
+}
+
+.urlbarView-row[selected],
+menupopup menu[_moz-menuactive="true"],
+menupopup menuitem[_moz-menuactive="true"] {
+  background: var(--ef-accent) !important;
+  color: var(--ef-bg) !important;
+}
+
+#tabs-newtab-button,
+#new-tab-button,
+#alltabs-button,
+.toolbarbutton-1 {
+  border-radius: 0 !important;
+}
+
+#firefox-view-button,
+#tabs-newtab-button:hover,
+#new-tab-button:hover,
+#PanelUI-menu-button:hover,
+.toolbarbutton-1:hover {
+  background: var(--ef-bg-alt) !important;
+}
+
+#sidebar-header,
+#PersonalToolbar {
+  border-top: 1px solid var(--ef-border) !important;
+}
+
+#PersonalToolbar toolbarbutton {
+  margin: 0 !important;
+  padding: 4px 6px !important;
+}
+
+.titlebar-spacer,
+.tab-line,
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-badge-stack,
+#TabsToolbar .toolbarbutton-1 > .toolbarbutton-icon {
+  border-radius: 0 !important;
+}

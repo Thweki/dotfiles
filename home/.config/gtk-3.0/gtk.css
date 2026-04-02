@@ -1,0 +1,136 @@
+@define-color bg #2d353b;
+@define-color bg_alt #343f44;
+@define-color border #3d484d;
+@define-color fg #d3c6aa;
+@define-color fg_muted #859289;
+@define-color accent #7fbbb3;
+@define-color green #a7c080;
+@define-color red #e67e80;
+@define-color yellow #dbbc7f;
+
+* {
+  color: @fg;
+  background-color: transparent;
+  border-color: @border;
+  box-shadow: none;
+  text-shadow: none;
+  outline-color: transparent;
+}
+
+window,
+dialog,
+messagedialog,
+.background {
+  background-color: @bg;
+  color: @fg;
+}
+
+headerbar,
+headerbar:backdrop,
+titlebar,
+titlebar:backdrop {
+  background: @bg_alt;
+  color: @fg;
+  border: none;
+  box-shadow: none;
+}
+
+popover,
+menu,
+tooltip,
+.view,
+viewport,
+scrolledwindow,
+textview,
+text,
+entry,
+searchbar,
+treeview,
+list,
+list row,
+notebook > header,
+notebook > stack,
+paned,
+frame,
+calendar {
+  background-color: @bg;
+  color: @fg;
+}
+
+entry,
+spinbutton,
+button,
+combobox,
+scale,
+progressbar,
+trough,
+scrollbar slider,
+selection,
+switch,
+check,
+radio {
+  border-radius: 0;
+}
+
+button,
+modelbutton,
+entry,
+spinbutton,
+combobox,
+treeview.view,
+textview,
+frame,
+calendar,
+notebook > header > tabs > tab {
+  background: @bg_alt;
+  color: @fg;
+  border: 1px solid @border;
+}
+
+button:hover,
+modelbutton:hover,
+entry:focus,
+spinbutton:focus,
+combobox:hover,
+treeview.view:selected,
+iconview:selected,
+flowboxchild:selected,
+notebook > header > tabs > tab:checked {
+  background: @bg_alt;
+  color: @green;
+  border-color: @accent;
+}
+
+button:active,
+button:checked,
+switch:checked,
+check:checked,
+radio:checked,
+progressbar progress,
+scale highlight,
+trough highlight,
+selection,
+*:selected {
+  background: @accent;
+  color: @bg;
+  border-color: @accent;
+}
+
+link,
+label link {
+  color: @accent;
+}
+
+warning,
+.warning {
+  color: @yellow;
+}
+
+error,
+.error {
+  color: @red;
+}
+
+tooltip {
+  border: 1px solid @accent;
+}

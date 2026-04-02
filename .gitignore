@@ -1,0 +1,7 @@
+.DS_Store
+*.swp
+*.swo
+*.tmp
+*.bak
+home/.config/nvim/.netrwhist
+

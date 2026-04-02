@@ -1,0 +1,29 @@
+@-moz-document url-prefix("about:"), url-prefix("chrome://"), url-prefix("resource://") {
+  :root {
+    --ef-bg: #2d353b !important;
+    --ef-bg-alt: #343f44 !important;
+    --ef-border: #3d484d !important;
+    --ef-fg: #d3c6aa !important;
+    --ef-accent: #7fbbb3 !important;
+  }
+
+  html,
+  body {
+    background: var(--ef-bg) !important;
+    color: var(--ef-fg) !important;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    background: var(--ef-bg-alt) !important;
+    color: var(--ef-fg) !important;
+    border: 1px solid var(--ef-border) !important;
+    border-radius: 0 !important;
+  }
+
+  a {
+    color: var(--ef-accent) !important;
+  }
+}

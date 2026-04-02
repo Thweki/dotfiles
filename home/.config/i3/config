@@ -1,0 +1,159 @@
+# Everforest i3 theme: minimal, sharp, no rounded corners.
+
+set $mod Mod4
+
+# Everforest palette
+set $base    #2d353b
+set $surface #343f44
+set $overlay #3d484d
+set $muted   #5c6a72
+set $subtle  #859289
+set $text    #d3c6aa
+set $love    #e67e80
+set $gold    #dbbc7f
+set $rose    #d699b6
+set $pine    #a7c080
+set $foam    #83c092
+set $iris    #7fbbb3
+
+font pango:CaskaydiaCove Nerd Font Mono 10
+
+floating_modifier $mod
+tiling_drag modifier titlebar
+
+focus_follows_mouse no
+mouse_warping none
+workspace_auto_back_and_forth yes
+
+default_border pixel 2
+default_floating_border pixel 2
+hide_edge_borders smart
+
+client.focused          $iris $base $text $iris $iris
+client.focused_inactive $overlay $overlay $subtle $muted $overlay
+client.unfocused        $overlay $overlay $subtle $muted $overlay
+client.urgent           $love $love $base $love $love
+client.placeholder      $surface $surface $subtle $surface $surface
+client.background       $base
+
+exec_always --no-startup-id /home/thweki/.config/i3/autostart.sh
+
+set $refresh_i3status pkill -USR1 -f '/home/thweki/.config/i3/status.sh'
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +5% && $refresh_i3status
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -5% && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+bindsym $mod+Return exec kitty
+bindsym $mod+Shift+q kill
+bindsym $mod+Shift+x exec --no-startup-id /home/thweki/.config/i3/lock.sh
+
+# Keep dmenu until rofi is installed.
+bindsym $mod+d exec --no-startup-id rofi -show drun -show-icons
+bindsym $mod+Shift+d exec --no-startup-id rofi -show run
+bindsym $mod+n exec --no-startup-id dunstctl close
+bindsym $mod+Shift+n exec --no-startup-id dunstctl history-pop
+
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+bindsym $mod+Left focus left
+bindsym $mod+Down focus down
+bindsym $mod+Up focus up
+bindsym $mod+Right focus right
+
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+Left move left
+bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Up move up
+bindsym $mod+Shift+Right move right
+
+bindsym $mod+h split h
+bindsym $mod+v split v
+bindsym $mod+f fullscreen toggle
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+bindsym $mod+a focus parent
+
+set $ws1 "1:term"
+set $ws2 "2:web"
+set $ws3 "3:code"
+set $ws4 "4:sys"
+set $ws5 "5:chat"
+set $ws6 "6:docs"
+set $ws7 "7:vm"
+set $ws8 "8:media"
+set $ws9 "9:misc"
+set $ws10 "10:bg"
+
+bindsym $mod+1 workspace number $ws1
+bindsym $mod+2 workspace number $ws2
+bindsym $mod+3 workspace number $ws3
+bindsym $mod+4 workspace number $ws4
+bindsym $mod+5 workspace number $ws5
+bindsym $mod+6 workspace number $ws6
+bindsym $mod+7 workspace number $ws7
+bindsym $mod+8 workspace number $ws8
+bindsym $mod+9 workspace number $ws9
+bindsym $mod+0 workspace number $ws10
+
+bindsym $mod+Shift+1 move container to workspace number $ws1
+bindsym $mod+Shift+2 move container to workspace number $ws2
+bindsym $mod+Shift+3 move container to workspace number $ws3
+bindsym $mod+Shift+4 move container to workspace number $ws4
+bindsym $mod+Shift+5 move container to workspace number $ws5
+bindsym $mod+Shift+6 move container to workspace number $ws6
+bindsym $mod+Shift+7 move container to workspace number $ws7
+bindsym $mod+Shift+8 move container to workspace number $ws8
+bindsym $mod+Shift+9 move container to workspace number $ws9
+bindsym $mod+Shift+0 move container to workspace number $ws10
+
+bindsym $mod+Shift+c reload
+bindsym $mod+Shift+r restart
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'Exit i3 session?' -B 'exit' 'i3-msg exit'"
+
+mode "resize" {
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
+
+    bindsym Left resize shrink width 10 px or 10 ppt
+    bindsym Down resize grow height 10 px or 10 ppt
+    bindsym Up resize shrink height 10 px or 10 ppt
+    bindsym Right resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
+
+bar {
+    position top
+    font pango:CaskaydiaCove Nerd Font Mono 10
+    status_command /home/thweki/.config/i3/status.sh
+    tray_output primary
+    strip_workspace_numbers no
+    workspace_min_width 88
+    separator_symbol " | "
+    colors {
+        background $base
+        statusline $text
+        separator $muted
+
+        focused_workspace  $iris $iris $base
+        active_workspace   $overlay $overlay $text
+        inactive_workspace $base $base $subtle
+        urgent_workspace   $love $love $base
+        binding_mode       $gold $gold $base
+    }
+}

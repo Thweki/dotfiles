@@ -1,0 +1,151 @@
+configuration {
+    modi: "drun,run,window";
+    show-icons: true;
+    icon-theme: "Adwaita";
+    terminal: "kitty";
+    drun-display-format: "{name}";
+    display-drun: "apps";
+    display-run: "run";
+    display-window: "win";
+    hover-select: false;
+    me-select-entry: "MousePrimary";
+    me-accept-entry: "MouseDPrimary";
+    kb-cancel: "Escape,Control+g,Control+bracketleft";
+}
+
+* {
+    bg:             #2d353b;
+    bg-alt:         #343f44;
+    fg:             #d3c6aa;
+    fg-muted:       #859289;
+    border:         #3d484d;
+    accent:         #7fbbb3;
+    urgent:         #e67e80;
+    selected:       #a7c080;
+
+    font: "CaskaydiaCove Nerd Font Mono 11";
+    background-color: transparent;
+    text-color: @fg;
+}
+
+window {
+    width: 44%;
+    location: north;
+    y-offset: 30px;
+    anchor: north;
+    fullscreen: false;
+    transparency: "real";
+    background-color: @bg;
+    border: 2px;
+    border-color: @accent;
+    border-radius: 0px;
+    padding: 14px;
+}
+
+mainbox {
+    background-color: transparent;
+    spacing: 10px;
+}
+
+inputbar {
+    children: [ prompt, entry ];
+    background-color: @bg-alt;
+    border: 1px;
+    border-color: @border;
+    border-radius: 0px;
+    padding: 10px 12px;
+    spacing: 12px;
+}
+
+prompt {
+    text-color: @accent;
+    background-color: transparent;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @fg;
+    placeholder: "launch";
+    placeholder-color: @fg-muted;
+}
+
+message {
+    background-color: transparent;
+    border: 0px;
+}
+
+listview {
+    background-color: transparent;
+    border: 0px;
+    columns: 1;
+    lines: 10;
+    cycle: false;
+    dynamic: true;
+    scrollbar: false;
+    layout: vertical;
+    spacing: 6px;
+}
+
+element {
+    background-color: @bg;
+    text-color: @fg;
+    border: 1px;
+    border-color: transparent;
+    border-radius: 0px;
+    padding: 8px 10px;
+    spacing: 10px;
+}
+
+element normal normal {
+    background-color: @bg;
+    text-color: @fg;
+}
+
+element selected normal {
+    background-color: @bg-alt;
+    text-color: @selected;
+    border-color: @accent;
+}
+
+element selected active {
+    background-color: @bg-alt;
+    text-color: @selected;
+    border-color: @accent;
+}
+
+element selected urgent {
+    background-color: @bg-alt;
+    text-color: @urgent;
+    border-color: @urgent;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    vertical-align: 0.5;
+}
+
+element-icon {
+    background-color: transparent;
+    size: 1.0em;
+}
+
+mode-switcher {
+    border: 0px;
+    spacing: 8px;
+}
+
+button {
+    background-color: @bg-alt;
+    text-color: @fg-muted;
+    border: 1px;
+    border-color: @border;
+    border-radius: 0px;
+    padding: 6px 10px;
+}
+
+button selected {
+    background-color: @accent;
+    text-color: @bg;
+    border-color: @accent;
+}

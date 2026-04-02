@@ -1,0 +1,5 @@
+export GTK_THEME=Default
+export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export QT_STYLE_OVERRIDE=kvantum
+export XMODIFIERS=@im=fcitx

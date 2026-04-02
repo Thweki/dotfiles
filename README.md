@@ -19,12 +19,26 @@ cd ~/dotfiles
 ./install.sh
 ```
 
+如果是 Arch Linux 新机器，建议直接执行：
+
+```bash
+git clone <你的仓库地址> ~/dotfiles
+cd ~/dotfiles
+./bootstrap-arch.sh
+```
+
 ## `install.sh` 会做什么
 
 - 创建缺失目录
 - 将已有配置备份到 `~/.dotfiles-backup/<时间戳>/`
 - 将仓库中的配置复制到 `$HOME`
 - 自动检测 Firefox 默认 profile，并安装 `user.js`、`userChrome.css`、`userContent.css`
+
+## `bootstrap-arch.sh` 会做什么
+
+- 检查当前系统是否为 Arch Linux
+- 使用 `pacman` 安装 [packages-arch.txt](/home/thweki/dotfiles/packages-arch.txt) 中列出的依赖
+- 安装完成后自动执行 `install.sh`
 
 ## Arch Linux 依赖
 
@@ -36,3 +50,10 @@ cd ~/dotfiles
 - 重启 `fcitx5`
 - 完全退出并重新打开 `firefox`
 - 打开 `nvim` 后执行 `:Lazy sync`
+
+## CI
+
+仓库内置了 GitHub Actions 检查：
+
+- `bash -n` 校验脚本语法
+- 检查关键文件和目录是否存在

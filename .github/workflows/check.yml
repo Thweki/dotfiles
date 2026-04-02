@@ -1,0 +1,32 @@
+name: 检查
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出仓库
+        uses: actions/checkout@v4
+
+      - name: 校验脚本语法
+        run: |
+          bash -n install.sh
+          bash -n bootstrap-arch.sh
+
+      - name: 检查关键文件
+        run: |
+          test -f README.md
+          test -f packages-arch.txt
+          test -f install.sh
+          test -f bootstrap-arch.sh
+          test -f home/.xprofile
+          test -f home/.gtkrc-2.0
+          test -d home/.config/i3
+          test -d home/.config/kitty
+          test -d home/.config/nvim
+          test -d home/.config/mozilla/firefox/profile-template/chrome

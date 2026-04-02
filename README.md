@@ -19,12 +19,24 @@ cd ~/dotfiles
 ./install.sh
 ```
 
+演练模式：
+
+```bash
+./install.sh --dry-run
+```
+
 如果是 Arch Linux 新机器，建议直接执行：
 
 ```bash
 git clone <你的仓库地址> ~/dotfiles
 cd ~/dotfiles
 ./bootstrap-arch.sh
+```
+
+如果你想先演练部署动作：
+
+```bash
+./bootstrap-arch.sh --dry-run
 ```
 
 ## `install.sh` 会做什么
@@ -34,11 +46,18 @@ cd ~/dotfiles
 - 将仓库中的配置复制到 `$HOME`
 - 自动检测 Firefox 默认 profile，并安装 `user.js`、`userChrome.css`、`userContent.css`
 
+支持参数：
+
+- `--dry-run`：只打印将要执行的动作
+- `--no-backup`：覆盖已有文件时不创建备份
+
 ## `bootstrap-arch.sh` 会做什么
 
 - 检查当前系统是否为 Arch Linux
 - 使用 `pacman` 安装 [packages-arch.txt](/home/thweki/dotfiles/packages-arch.txt) 中列出的依赖
 - 安装完成后自动执行 `install.sh`
+
+支持将 `--dry-run` 和 `--no-backup` 透传给 `install.sh`。
 
 ## Arch Linux 依赖
 

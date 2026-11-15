@@ -3,7 +3,7 @@
 set -euo pipefail
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-HOME_DIR="${HOME}"
+HOME_DIR="${HOME:-}"
 SOURCE_HOME="${REPO_DIR}/home"
 BACKUP_ROOT="${HOME_DIR}/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 DRY_RUN=0
@@ -50,6 +50,16 @@ parse_args() {
     esac
     shift
   done
+}
+
+validate_home() {
+  # Reject unsafe destinations before creating backups or replacing any files.
+  # Compare directory identity so symlinks and other aliases of / are rejected.
+  if [[ "$HOME_DIR" != /* ]] ||
+    [ ! -d "$HOME_DIR" ] || [ "$HOME_DIR" -ef / ]; then
+    printf 'Invalid HOME: expected an existing absolute directory other than /.\n' >&2
+    return 1
+  fi
 }
 
 backup_if_exists() {
@@ -152,6 +162,7 @@ install_firefox_profile() {
 
 main() {
   parse_args "$@"
+  validate_home
 
   if [ "$DRY_RUN" -eq 0 ] && [ "$NO_BACKUP" -eq 0 ]; then
     mkdir -p "$BACKUP_ROOT"

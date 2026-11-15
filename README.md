@@ -50,6 +50,17 @@ cd ~/dotfiles
 
 - `--dry-run`：只打印将要执行的动作
 - `--no-backup`：覆盖已有文件时不创建备份
+- `--status`：只读检查当前配置与仓库的差异，不显示文件内容，也不创建备份
+
+```bash
+./install.sh --status
+```
+
+每个安装目标会显示 `missing`（尚未安装）、`different`（有差异）、`same`（相同）或 `error`（无法比较）。
+目录递归比较文件内容、目录结构与符号链接，包括安装时会被移走的额外文件；不比较权限、所有者或时间戳。
+Firefox 使用安装器相同的默认 profile 检测规则，只比较三个受管理文件；未找到 profile 时显示 `skip`。
+退出码：`0` 表示所有已检查目标相同，`1` 表示存在缺失或差异，`2` 表示比较失败（优先于差异）。
+此模式需要 GNU `diff`（`diffutils`），可与 `--dry-run`、`--no-backup` 同用，始终只读；仅供直接调用 `install.sh` 使用。
 
 ## `bootstrap-arch.sh` 会做什么
 
@@ -77,3 +88,4 @@ cd ~/dotfiles
 
 - `bash -n` 校验脚本语法
 - 检查关键文件和目录是否存在
+- `python3 -m unittest discover -s tests -v` 检查只读状态模式（使用临时 HOME，无需桌面环境）

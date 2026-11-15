@@ -8,15 +8,18 @@ SOURCE_HOME="${REPO_DIR}/home"
 BACKUP_ROOT="${HOME_DIR}/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 DRY_RUN=0
 NO_BACKUP=0
+STATUS=0
+STATUS_RESULT=0
 
 usage() {
   cat <<'EOF'
 用法:
-  ./install.sh [--dry-run] [--no-backup]
+  ./install.sh [--dry-run] [--no-backup] [--status]
 
 参数:
   --dry-run    仅显示将要执行的动作，不实际修改文件
   --no-backup  覆盖已有文件时不创建备份
+  --status     只比较已安装配置，不修改文件或显示文件内容（退出码：0 相同，1 有差异，2 错误）
   -h, --help   显示帮助
 EOF
 }
@@ -38,6 +41,7 @@ parse_args() {
     case "$1" in
       --dry-run) DRY_RUN=1 ;;
       --no-backup) NO_BACKUP=1 ;;
+      --status) STATUS=1; DRY_RUN=1 ;;
       -h|--help)
         usage
         exit 0
@@ -50,6 +54,42 @@ parse_args() {
     esac
     shift
   done
+}
+
+report_status() {
+  local src="$1" dst="$2" state result=0
+
+  if [ ! -e "$src" ] && [ ! -L "$src" ]; then
+    state=error
+    result=2
+  elif [ ! -e "$dst" ] && [ ! -L "$dst" ]; then
+    state=missing
+    result=1
+  elif [ -L "$src" ] || [ -L "$dst" ]; then
+    state=different
+    result=1
+    if [ -L "$src" ] && [ -L "$dst" ] && [ "$(readlink "$src")" = "$(readlink "$dst")" ]; then
+      state=same
+      result=0
+    fi
+  elif { [ -d "$src" ] && [ ! -d "$dst" ]; } ||
+       { [ -f "$src" ] && [ ! -f "$dst" ]; }; then
+    state=different
+    result=1
+  else
+    # Suppress diff output: status must never display configuration contents.
+    diff --brief --recursive --no-dereference -- "$src" "$dst" >/dev/null 2>&1 || result=$?
+    case "$result" in
+      0) state=same ;;
+      1) state=different ;;
+      *) state=error; result=2 ;;
+    esac
+  fi
+
+  log_action "$state" "$dst"
+  if [ "$result" -gt "$STATUS_RESULT" ]; then
+    STATUS_RESULT="$result"
+  fi
 }
 
 backup_if_exists() {
@@ -80,6 +120,11 @@ install_path() {
   local rel="$1"
   local src="${SOURCE_HOME}/${rel}"
   local dst="${HOME_DIR}/${rel}"
+
+  if [ "$STATUS" -eq 1 ]; then
+    report_status "$src" "$dst"
+    return 0
+  fi
 
   backup_if_exists "$dst"
   log_action "install" "$dst"
@@ -134,6 +179,14 @@ install_firefox_profile() {
   fi
 
   local target_profile="${firefox_root}/${profile_path}"
+  if [ "$STATUS" -eq 1 ]; then
+    local rel
+    for rel in user.js chrome/userChrome.css chrome/userContent.css; do
+      report_status "${template_root}/${rel}" "${target_profile}/${rel}"
+    done
+    return 0
+  fi
+
   log_action "install" "firefox profile -> ${target_profile}"
 
   backup_if_exists "${target_profile}/user.js"
@@ -152,6 +205,11 @@ install_firefox_profile() {
 
 main() {
   parse_args "$@"
+
+  if [ "$STATUS" -eq 1 ] && ! command -v diff >/dev/null 2>&1; then
+    printf 'Status requires GNU diff (diffutils).\n' >&2
+    return 2
+  fi
 
   if [ "$DRY_RUN" -eq 0 ] && [ "$NO_BACKUP" -eq 0 ]; then
     mkdir -p "$BACKUP_ROOT"
@@ -179,14 +237,13 @@ main() {
     install_path "$rel"
   done
 
-  backup_if_exists "${HOME_DIR}/.local/share/fcitx5/themes/everforest"
-  log_action "install" "${HOME_DIR}/.local/share/fcitx5/themes/everforest"
-  if [ "$DRY_RUN" -eq 0 ]; then
-    mkdir -p "${HOME_DIR}/.local/share/fcitx5/themes"
-    cp -a "${SOURCE_HOME}/.local/share/fcitx5/themes/everforest" "${HOME_DIR}/.local/share/fcitx5/themes/everforest"
-  fi
+  install_path ".local/share/fcitx5/themes/everforest"
 
   install_firefox_profile
+
+  if [ "$STATUS" -eq 1 ]; then
+    return "$STATUS_RESULT"
+  fi
 
   printf '\nDone.\n'
   if [ "$NO_BACKUP" -eq 0 ]; then

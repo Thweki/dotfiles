@@ -18,6 +18,9 @@ jobs:
           bash -n install.sh
           bash -n bootstrap-arch.sh
 
+      - name: Test bootstrap package-list failures
+        run: python3 tests/test_bootstrap_package_list.py -v
+
       - name: 检查关键文件
         run: |
           test -f README.md

@@ -54,7 +54,19 @@ main() {
     exit 1
   fi
 
-  mapfile -t packages < <(grep -vE '^\s*(#|$)' "$PACKAGE_FILE")
+  # Process substitution hides grep failures from mapfile and set -e.
+  local package_list grep_status
+  package_list="$(grep -vE '^\s*(#|$)' "$PACKAGE_FILE")" || {
+    grep_status=$?
+    # No matching lines is a valid empty list; read errors must stop bootstrap.
+    if [ "$grep_status" -ne 1 ]; then
+      return "$grep_status"
+    fi
+  }
+  local -a packages=()
+  if [ -n "$package_list" ]; then
+    mapfile -t packages <<< "$package_list"
+  fi
 
   if [ "${#packages[@]}" -gt 0 ]; then
     sudo pacman -S --needed "${packages[@]}"

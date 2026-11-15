@@ -23,6 +23,9 @@ jobs:
       - name: 安装前源文件校验测试
         run: python3 -B -m unittest discover -s tests -p 'test_install_preflight.py' -v
 
+      - name: Test status volume polling
+        run: python3 -B -m unittest discover -s tests -p 'test_status_volume.py' -v
+
       - name: 检查关键文件
         run: bash scripts/check.sh payload
 

@@ -4,9 +4,10 @@ set -euo pipefail
 
 volume() {
   if command -v pactl >/dev/null 2>&1; then
-    local mute level
-    mute="$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null | awk '{print $2}')"
-    level="$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null | awk 'NR==1 {gsub(/%/, "", $5); print $5}')"
+    local mute level _
+    read -r _ mute _ <<< "$(pactl get-sink-mute @DEFAULT_SINK@ 2>/dev/null)"
+    read -r _ _ _ _ level _ <<< "$(pactl get-sink-volume @DEFAULT_SINK@ 2>/dev/null)"
+    level="${level//%/}"
     if [ -n "${level:-}" ]; then
       if [ "$mute" = "yes" ]; then
         printf 'VOL muted'

@@ -154,7 +154,8 @@ main() {
   parse_args "$@"
 
   if [ "$DRY_RUN" -eq 0 ] && [ "$NO_BACKUP" -eq 0 ]; then
-    mkdir -p "$BACKUP_ROOT"
+    mkdir -p "${HOME_DIR}/.dotfiles-backup"
+    BACKUP_ROOT="$(mktemp -d "${BACKUP_ROOT}.XXXXXX")"
   fi
 
   install_path ".xprofile"

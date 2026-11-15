@@ -42,7 +42,7 @@ cd ~/dotfiles
 ## `install.sh` 会做什么
 
 - 创建缺失目录
-- 将已有配置备份到 `~/.dotfiles-backup/<时间戳>/`
+- 将已有配置备份到 `~/.dotfiles-backup/<时间戳>.<随机后缀>/`
 - 将仓库中的配置复制到 `$HOME`
 - 自动检测 Firefox 默认 profile，并安装 `user.js`、`userChrome.css`、`userContent.css`
 
@@ -76,4 +76,5 @@ cd ~/dotfiles
 仓库内置了 GitHub Actions 检查：
 
 - `bash -n` 校验脚本语法
+- 在隔离环境中检查同秒重复安装的备份与 dry-run 行为
 - 检查关键文件和目录是否存在

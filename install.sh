@@ -64,7 +64,12 @@ backup_if_exists() {
     return 0
   fi
 
-  local rel="${target#${HOME_DIR}/}"
+  local rel
+  case "$target" in
+    "${HOME_DIR}/"*) rel="${target#"${HOME_DIR}/"}" ;;
+    /*) rel="external/${target#/}" ;;
+    *) printf 'Backup target must be absolute: %s\n' "$target" >&2; return 1 ;;
+  esac
   local backup_path="${BACKUP_ROOT}/${rel}"
   log_action "backup" "${target} -> ${backup_path}"
 
@@ -92,6 +97,54 @@ install_path() {
   cp -a "$src" "$dst"
 }
 
+select_firefox_profile() {
+  local profile_ini="$1"
+  local firefox_root="$2"
+  awk -v root="$firefox_root" '
+    function finish_section() {
+      if (in_profile && def && path != "" && !profile_found) {
+        profile_path=path
+        profile_relative=relative
+        profile_found=1
+      }
+    }
+    { sub(/\r$/, "") }
+    /^\[/ {
+      finish_section()
+      in_profile=($0 ~ /^\[Profile[^]]*\]$/)
+      in_install=($0 ~ /^\[Install[^]]*\]$/)
+      path=""
+      def=0
+      relative="1"
+      next
+    }
+    {
+      separator=index($0, "=")
+      if (!separator) next
+      key=substr($0, 1, separator-1)
+      value=substr($0, separator+1)
+      if (in_install && key == "Default" && value != "" && install_path == "")
+        install_path=value
+      if (in_profile && key == "Path") path=value
+      if (in_profile && key == "IsRelative") relative=value
+      if (in_profile && key == "Default") def=(value == "1")
+    }
+    END {
+      finish_section()
+      if (install_path != "") {
+        path=install_path
+        relative=(substr(path, 1, 1) == "/" ? "0" : "1")
+      } else if (profile_found) {
+        path=profile_path
+        relative=profile_relative
+      } else exit
+
+      if (relative == "0" && substr(path, 1, 1) == "/") print path
+      else if (relative == "1" && substr(path, 1, 1) != "/") print root "/" path
+    }
+  ' "$profile_ini"
+}
+
 install_firefox_profile() {
   local firefox_root="${HOME_DIR}/.config/mozilla/firefox"
   local template_root="${SOURCE_HOME}/.config/mozilla/firefox/profile-template"
@@ -107,33 +160,34 @@ install_firefox_profile() {
     return 0
   fi
 
-  local profile_path
-  profile_path="$(
-    awk -F= '
-      /^\[Install/ { in_install=1; next }
-      /^\[/ { in_install=0 }
-      in_install && $1 == "Default" { print $2; exit }
-    ' "$profile_ini"
-  )"
-
-  if [ -z "${profile_path}" ]; then
-    profile_path="$(
-      awk -F= '
-        /^\[Profile/ { in_profile=1; path=""; def=0; next }
-        /^\[/ { if (in_profile && def && path) { print path; exit } in_profile=0 }
-        in_profile && $1 == "Path" { path=$2 }
-        in_profile && $1 == "Default" && $2 == "1" { def=1 }
-        END { if (in_profile && def && path) print path }
-      ' "$profile_ini"
-    )"
-  fi
-
-  if [ -z "${profile_path}" ]; then
+  local target_profile
+  target_profile="$(select_firefox_profile "$profile_ini" "$firefox_root")"
+  if [ -z "$target_profile" ]; then
     log_action "skip" "firefox default profile not found"
     return 0
   fi
 
-  local target_profile="${firefox_root}/${profile_path}"
+  # Resolve existing directories before constructing backup paths, including ../ paths.
+  if ! target_profile="$(cd -- "$target_profile" 2>/dev/null && pwd -P)"; then
+    log_action "skip" "firefox profile directory not found"
+    return 0
+  fi
+
+  if [ ! -w "$target_profile" ] ||
+    { { [ -e "${target_profile}/chrome" ] || [ -L "${target_profile}/chrome" ]; } &&
+      { [ ! -d "${target_profile}/chrome" ] || [ ! -w "${target_profile}/chrome" ]; }; }; then
+    log_action "skip" "invalid firefox profile destination: ${target_profile}"
+    return 0
+  fi
+
+  local destination
+  for destination in user.js chrome/userChrome.css chrome/userContent.css; do
+    if [ -e "${target_profile}/${destination}" ] && [ ! -f "${target_profile}/${destination}" ]; then
+      log_action "skip" "invalid firefox file destination: ${target_profile}/${destination}"
+      return 0
+    fi
+  done
+
   log_action "install" "firefox profile -> ${target_profile}"
 
   backup_if_exists "${target_profile}/user.js"
@@ -194,4 +248,6 @@ main() {
   fi
 }
 
-main "$@"
+if [[ "${BASH_SOURCE[0]}" == "$0" ]]; then
+  main "$@"
+fi

@@ -46,6 +46,10 @@ cd ~/dotfiles
 - 将仓库中的配置复制到 `$HOME`
 - 自动检测 Firefox 默认 profile，并安装 `user.js`、`userChrome.css`、`userContent.css`
 
+Firefox 优先使用 `[Install…]` 的 `Default`，否则使用首个 `Default=1` 的 `[Profile…]`。
+支持 `IsRelative=0` 的绝对路径；目标 profile 必须已存在且可写，文件目标类型异常时跳过整个 Firefox 安装。
+位于 `$HOME` 外的 profile 文件备份到 `~/.dotfiles-backup/<时间戳>/external/<绝对路径去掉开头的斜杠>/`。
+
 支持参数：
 
 - `--dry-run`：只打印将要执行的动作
@@ -70,6 +74,18 @@ cd ~/dotfiles
 ## 安装完成后
 
 安装后的详细检查项见 [post-install.md](/home/thweki/dotfiles/post-install.md)。
+
+## 测试
+
+Firefox 回归测试使用临时 HOME 和 profile，无需安装或启动 Firefox：
+
+```bash
+python3 -B -m unittest discover -s tests -v
+bash -n install.sh
+bash -n bootstrap-arch.sh
+```
+
+测试以 root 运行时会跳过目录写权限检查，因为 root 可以绕过该权限限制。
 
 ## CI
 

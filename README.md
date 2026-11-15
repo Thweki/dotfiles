@@ -76,5 +76,16 @@ cd ~/dotfiles
 
 仓库内置了 GitHub Actions 检查：
 
-- `bash -n` 校验脚本语法
-- 检查关键文件和目录是否存在
+- 按 shebang 使用 `bash -n` 或 `sh -n` 检查所有 `.sh`，并显式检查 `.xprofile`
+- 检查所有安装源目录、关键配置、Firefox 模板文件和启动脚本的可执行权限
+- 安装 ShellCheck，按对应 shell 方言检查 warning/error；本地未安装时明确输出 `SKIP`
+- 运行 Python 标准库隔离回归测试：临时 HOME、仓库副本和命令桩，不调用真实包管理器或桌面会话
+
+本地运行与 CI 相同的检查（需要 Bash、POSIX sh 和 Python 3）：
+
+```bash
+bash scripts/check.sh
+```
+
+也可以分别运行 `syntax`、`payload`、`lint`、`tests`。CI 会尝试通过 apt 安装 ShellCheck；
+如果工具仍不可用，将显示警告和跳过原因。现有行为测试不包含其他修复分支尚未合入的回归用例。

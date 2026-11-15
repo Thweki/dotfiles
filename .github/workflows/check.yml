@@ -32,3 +32,6 @@ jobs:
           test -d home/.config/kitty
           test -d home/.config/nvim
           test -d home/.config/mozilla/firefox/profile-template/chrome
+
+      - name: 安装器进程开销回归测试
+        run: python3 -B -m unittest discover -s tests -p 'test_install_processes.py' -v

@@ -72,7 +72,7 @@ backup_if_exists() {
     return 0
   fi
 
-  mkdir -p "$(dirname "$backup_path")"
+  mkdir -p "${backup_path%/*}"
   mv "$target" "$backup_path"
 }
 
@@ -88,7 +88,7 @@ install_path() {
     return 0
   fi
 
-  mkdir -p "$(dirname "$dst")"
+  mkdir -p "${dst%/*}"
   cp -a "$src" "$dst"
 }
 

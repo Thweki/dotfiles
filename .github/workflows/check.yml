@@ -18,6 +18,9 @@ jobs:
           bash -n install.sh
           bash -n bootstrap-arch.sh
 
+      - name: 安装前源文件校验测试
+        run: python3 -B -m unittest discover -s tests -p 'test_install_preflight.py' -v
+
       - name: 检查关键文件
         run: |
           test -f README.md

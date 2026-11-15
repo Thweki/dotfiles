@@ -9,11 +9,12 @@ INSTALL_ARGS=()
 usage() {
   cat <<'EOF'
 用法:
-  ./bootstrap-arch.sh [--dry-run] [--no-backup]
+  ./bootstrap-arch.sh [--dry-run] [--no-backup] [--skip-firefox]
 
 参数:
   --dry-run    安装依赖后，以演练模式执行 install.sh
   --no-backup  调用 install.sh 时不创建备份
+  --skip-firefox  跳过 Firefox 配置，仍安装依赖包
   -h, --help   显示帮助
 EOF
 }
@@ -22,6 +23,7 @@ parse_args() {
   while [ "$#" -gt 0 ]; do
     case "$1" in
       --dry-run|--no-backup) INSTALL_ARGS+=("$1") ;;
+      --skip-firefox) INSTALL_ARGS+=("$1") ;;
       -h|--help)
         usage
         exit 0

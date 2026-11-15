@@ -8,15 +8,17 @@ SOURCE_HOME="${REPO_DIR}/home"
 BACKUP_ROOT="${HOME_DIR}/.dotfiles-backup/$(date +%Y%m%d-%H%M%S)"
 DRY_RUN=0
 NO_BACKUP=0
+SKIP_FIREFOX=0
 
 usage() {
   cat <<'EOF'
 用法:
-  ./install.sh [--dry-run] [--no-backup]
+  ./install.sh [--dry-run] [--no-backup] [--skip-firefox]
 
 参数:
   --dry-run    仅显示将要执行的动作，不实际修改文件
   --no-backup  覆盖已有文件时不创建备份
+  --skip-firefox  跳过 Firefox 配置，保留现有浏览器偏好与样式
   -h, --help   显示帮助
 EOF
 }
@@ -38,6 +40,7 @@ parse_args() {
     case "$1" in
       --dry-run) DRY_RUN=1 ;;
       --no-backup) NO_BACKUP=1 ;;
+      --skip-firefox) SKIP_FIREFOX=1 ;;
       -h|--help)
         usage
         exit 0
@@ -186,7 +189,11 @@ main() {
     cp -a "${SOURCE_HOME}/.local/share/fcitx5/themes/everforest" "${HOME_DIR}/.local/share/fcitx5/themes/everforest"
   fi
 
-  install_firefox_profile
+  if [ "$SKIP_FIREFOX" -eq 1 ]; then
+    log_action "skip" "firefox customization (--skip-firefox)"
+  else
+    install_firefox_profile
+  fi
 
   printf '\nDone.\n'
   if [ "$NO_BACKUP" -eq 0 ]; then

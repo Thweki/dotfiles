@@ -50,6 +50,13 @@ cd ~/dotfiles
 
 - `--dry-run`：只打印将要执行的动作
 - `--no-backup`：覆盖已有文件时不创建备份
+- `--skip-firefox`：跳过 Firefox 配置，不备份或修改其 profile；其余配置照常安装。可与 `--dry-run`、`--no-backup` 组合使用。
+
+如果只想部署桌面配置，并保留自己的 Firefox 偏好与样式：
+
+```bash
+./install.sh --skip-firefox
+```
 
 ## `bootstrap-arch.sh` 会做什么
 
@@ -57,7 +64,8 @@ cd ~/dotfiles
 - 使用 `pacman` 安装 [packages-arch.txt](/home/thweki/dotfiles/packages-arch.txt) 中列出的依赖
 - 安装完成后自动执行 `install.sh`
 
-支持将 `--dry-run` 和 `--no-backup` 透传给 `install.sh`。
+支持将 `--dry-run`、`--no-backup` 和 `--skip-firefox` 透传给 `install.sh`。
+`./bootstrap-arch.sh --skip-firefox` 仍会安装完整依赖列表（包括 Firefox 软件包），仅跳过浏览器配置。
 
 ## Arch Linux 依赖
 
@@ -77,3 +85,9 @@ cd ~/dotfiles
 
 - `bash -n` 校验脚本语法
 - 检查关键文件和目录是否存在
+
+本地运行 Firefox 配置跳过选项的隔离测试（仅需 Python 3 和 Bash，不调用真实包管理器）：
+
+```bash
+python3 -B -m unittest discover -s tests -p 'test_skip_firefox.py' -v
+```

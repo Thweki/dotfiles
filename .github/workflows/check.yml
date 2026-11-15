@@ -18,6 +18,9 @@ jobs:
           bash -n install.sh
           bash -n bootstrap-arch.sh
 
+      - name: 测试 bootstrap
+        run: python3 -m unittest discover -s tests -v
+
       - name: 检查关键文件
         run: |
           test -f README.md

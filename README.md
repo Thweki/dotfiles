@@ -33,7 +33,7 @@ cd ~/dotfiles
 ./bootstrap-arch.sh
 ```
 
-如果你想先演练部署动作：
+如果你想先预览依赖安装与文件部署（不执行 `sudo` 或 `pacman`，不修改系统或文件）：
 
 ```bash
 ./bootstrap-arch.sh --dry-run
@@ -57,7 +57,10 @@ cd ~/dotfiles
 - 使用 `pacman` 安装 [packages-arch.txt](/home/thweki/dotfiles/packages-arch.txt) 中列出的依赖
 - 安装完成后自动执行 `install.sh`
 
-支持将 `--dry-run` 和 `--no-backup` 透传给 `install.sh`。
+支持参数：
+
+- `--dry-run`：打印将要执行的包安装命令，并以演练模式执行 `install.sh`，预览文件操作；不执行 `sudo` 或 `pacman`，不访问软件包镜像，不修改系统或文件。此模式无需 Arch Linux、`sudo` 或 `pacman`。
+- `--no-backup`：透传给 `install.sh`，覆盖已有文件时不创建备份。
 
 ## Arch Linux 依赖
 
@@ -77,3 +80,4 @@ cd ~/dotfiles
 
 - `bash -n` 校验脚本语法
 - 检查关键文件和目录是否存在
+- 使用隔离的命令桩测试 bootstrap 的演练与正常安装流程：`python3 -m unittest discover -s tests -v`

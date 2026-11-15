@@ -77,3 +77,6 @@ cd ~/dotfiles
 
 - `bash -n` 校验脚本语法
 - 检查关键文件和目录是否存在
+- 使用 Lua 5.1 解析器检查所有 Neovim `.lua` 文件，不执行配置或下载插件。
+  本地安装 `lua5.1` 后运行 `python3 -B scripts/check_lua.py`；检查器的回归测试命令为
+  `python3 -B -m unittest discover -s tests -p 'test_lua_syntax.py' -v`。

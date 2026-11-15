@@ -2,6 +2,8 @@
 
 set -eu
 
+SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+
 run_once() {
   proc_name="$1"
   shift
@@ -30,14 +32,14 @@ if command -v dunst >/dev/null 2>&1; then
 fi
 
 if command -v xss-lock >/dev/null 2>&1 && command -v i3lock >/dev/null 2>&1; then
-  run_once xss-lock /home/thweki/.config/i3/lock.sh --daemon
+  run_once xss-lock "$SCRIPT_DIR/lock.sh" --daemon
 fi
 
 if command -v vmware-user-suid-wrapper >/dev/null 2>&1; then
   run_once vmware-user-suid-wrapper vmware-user-suid-wrapper
 fi
 
-/home/thweki/.config/i3/theme.sh
+"$SCRIPT_DIR/theme.sh"
 
 if command -v xrandr >/dev/null 2>&1; then
   xrandr --output Virtual-1 --auto >/dev/null 2>&1 || true

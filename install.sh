@@ -153,13 +153,6 @@ install_firefox_profile() {
 main() {
   parse_args "$@"
 
-  if [ "$DRY_RUN" -eq 0 ] && [ "$NO_BACKUP" -eq 0 ]; then
-    mkdir -p "$BACKUP_ROOT"
-  fi
-
-  install_path ".xprofile"
-  install_path ".gtkrc-2.0"
-
   local config_dirs=(
     ".config/i3"
     ".config/kitty"
@@ -174,7 +167,35 @@ main() {
     ".config/nvim"
   )
 
+  # Check each copy source before moving or deleting any user files.
+  local source_files=(
+    ".xprofile"
+    ".gtkrc-2.0"
+    ".config/mozilla/firefox/profile-template/user.js"
+    ".config/mozilla/firefox/profile-template/chrome/userChrome.css"
+    ".config/mozilla/firefox/profile-template/chrome/userContent.css"
+  )
   local rel
+  for rel in "${source_files[@]}"; do
+    if [ ! -f "${SOURCE_HOME}/${rel}" ]; then
+      printf 'Missing or invalid source file: %s\n' "${SOURCE_HOME}/${rel}" >&2
+      return 1
+    fi
+  done
+  for rel in "${config_dirs[@]}" ".local/share/fcitx5/themes/everforest"; do
+    if [ ! -d "${SOURCE_HOME}/${rel}" ]; then
+      printf 'Missing or invalid source directory: %s\n' "${SOURCE_HOME}/${rel}" >&2
+      return 1
+    fi
+  done
+
+  if [ "$DRY_RUN" -eq 0 ] && [ "$NO_BACKUP" -eq 0 ]; then
+    mkdir -p "$BACKUP_ROOT"
+  fi
+
+  install_path ".xprofile"
+  install_path ".gtkrc-2.0"
+
   for rel in "${config_dirs[@]}"; do
     install_path "$rel"
   done

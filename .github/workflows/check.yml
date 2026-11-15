@@ -15,8 +15,12 @@ jobs:
 
       - name: 校验脚本语法
         run: |
-          bash -n install.sh
-          bash -n bootstrap-arch.sh
+          for script in install.sh bootstrap-arch.sh home/.xprofile home/.config/i3/*.sh tests/*.sh; do
+            bash -n "$script"
+          done
+
+      - name: 检查 i3 路径可移植性
+        run: bash tests/portable-i3-paths.sh
 
       - name: 检查关键文件
         run: |
